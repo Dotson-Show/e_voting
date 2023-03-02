@@ -1,7 +1,7 @@
 package com.evoter.party.controller;
 
+import com.evoter.party.dto.CreateUpdatePartyDTO;
 import com.evoter.party.model.Party;
-import com.evoter.party.dto.AddPartyRequest;
 import com.evoter.party.service.PartyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author showunmioludotun
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/parties")
 public class PartyController {
     private final PartyService partyService;
 
@@ -21,10 +21,10 @@ public class PartyController {
         this.partyService = partyService;
     }
 
-    @PostMapping("/parties")
-    public ResponseEntity<Party> addParty(@RequestBody AddPartyRequest request) {
+    @PostMapping("/create")
+    public ResponseEntity<Party> addParty(@RequestBody CreateUpdatePartyDTO request) {
         try {
-            Party savedParty = partyService.addParty(request);
+            Party savedParty = partyService.createParty(request);
             if (savedParty == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
