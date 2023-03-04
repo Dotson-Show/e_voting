@@ -208,7 +208,6 @@ public class UserServiceImpl implements UserService {
         log.info("Converting Admin User to Admin User DTO");
 
         UserDTO adminUserDTO = new UserDTO();
-
         generalService.createDTOFromModel(adminUser, adminUserDTO);
 
         //get role dto

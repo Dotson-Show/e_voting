@@ -17,6 +17,10 @@ public class UserDTO {
 
     private RoleDTO role;
 
-    private String token;
+    private String publicKey;
+
+    private String privateKey;
+
+    private String govtId;
 
 }
