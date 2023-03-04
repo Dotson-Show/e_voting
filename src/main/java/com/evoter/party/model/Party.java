@@ -19,6 +19,5 @@ public class Party {
 
     private String name;
 
-    private String logo;
 
 }
