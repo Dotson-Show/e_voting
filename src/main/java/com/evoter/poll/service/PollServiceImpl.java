@@ -5,12 +5,10 @@ import com.evoter.candidate.service.CandidateService;
 import com.evoter.exception.GeneralException;
 import com.evoter.general.enums.ResponseCodeAndMessage;
 import com.evoter.general.service.GeneralService;
-import com.evoter.permission.model.Permission;
 import com.evoter.poll.dto.AddPollRequest;
 import com.evoter.poll.dto.PollDto;
 import com.evoter.poll.model.Poll;
 import com.evoter.poll.repository.PollRepository;
-import com.evoter.pollType.repository.PollTypeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,20 +17,17 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class PollServiceImpl implements PollService{
+public class PollServiceImpl implements PollService {
 
     private final PollRepository pollRepository;
 
     private final GeneralService generalService;
 
-    private final PollTypeRepository pollTypeRepository;
-
     private final CandidateService candidateService;
 
-    public PollServiceImpl(PollRepository pollRepository, GeneralService generalService, PollTypeRepository pollTypeRepository, CandidateService candidateService) {
+    public PollServiceImpl(PollRepository pollRepository, GeneralService generalService, CandidateService candidateService) {
         this.pollRepository = pollRepository;
         this.generalService = generalService;
-        this.pollTypeRepository = pollTypeRepository;
         this.candidateService = candidateService;
     }
 
@@ -40,9 +35,9 @@ public class PollServiceImpl implements PollService{
     public PollDto createPoll(AddPollRequest requestDTO) {
         log.info("Request to create poll with payload={}", requestDTO);
 
-        //validate that pollType exist
-        if (!pollTypeRepository.existsById(requestDTO.getPollTypeId())) {
-            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Poll Type not found");
+        //validate poll
+        if (pollRepository.existsByPollName(requestDTO.getPollName())) {
+            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Poll Name already found");
         }
 
         //permission
@@ -51,7 +46,6 @@ public class PollServiceImpl implements PollService{
         // save role
         Poll poll = new Poll();
         poll.setPollName(requestDTO.getPollName());
-        poll.setPollTypeId(requestDTO.getPollTypeId());
         poll.setcandidateList(candidateList);
 
         pollRepository.save(poll);

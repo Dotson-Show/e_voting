@@ -22,9 +22,6 @@ public class Poll {
     private Long id;
 
     private String pollName;
-
-    private Long pollTypeId;
-
     @OneToMany
     private Set<Candidate> candidateList;
 
