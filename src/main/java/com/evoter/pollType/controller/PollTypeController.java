@@ -4,7 +4,6 @@ import com.evoter.general.dto.Response;
 import com.evoter.general.enums.ResponseCodeAndMessage;
 import com.evoter.general.service.GeneralService;
 import com.evoter.pollType.dto.AddPollTypeRequest;
-import com.evoter.pollType.dto.PollTypeDTO;
 import com.evoter.pollType.model.PollType;
 import com.evoter.pollType.service.PollTypeService;
 import org.springframework.beans.factory.annotation.Autowired;

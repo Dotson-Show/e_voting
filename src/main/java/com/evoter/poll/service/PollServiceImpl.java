@@ -50,7 +50,7 @@ public class PollServiceImpl implements PollService {
         // save role
         Poll poll = new Poll();
         poll.setPollTypeId(requestDTO.getPollTypeId());
-        poll.setcandidateList(candidateList);
+        poll.setCandidateList(candidateList);
 
         return pollRepository.save(poll);
     }

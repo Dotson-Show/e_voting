@@ -3,7 +3,7 @@ package com.evoter.party.controller;
 import com.evoter.general.dto.Response;
 import com.evoter.general.enums.ResponseCodeAndMessage;
 import com.evoter.general.service.GeneralService;
-import com.evoter.party.dto.CreateUpdatePartyDTO;
+import com.evoter.party.dto.UpdatePartyRequest;
 import com.evoter.party.model.Party;
 import com.evoter.party.service.PartyService;
 import org.springframework.http.HttpStatus;
@@ -28,12 +28,18 @@ public class PartyController {
     }
 
     @PostMapping("/create")
-    public Response createParty(@RequestBody CreateUpdatePartyDTO request) {
+    public Response createParty(@RequestBody UpdatePartyRequest request) {
 
         Party data = partyService.createParty(request);
 
         return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
+    }
 
+
+    @PutMapping("{partyId}")
+    public ResponseEntity<?> updateParty(@PathVariable Long partyId, @RequestBody UpdatePartyRequest updatePartyRequest) {
+        Party updatedParty = partyService.updateParty(partyId, updatePartyRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedParty);
     }
 
     @GetMapping("/parties")

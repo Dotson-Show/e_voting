@@ -3,6 +3,7 @@ package com.evoter.poll.model;
 import com.evoter.candidate.model.Candidate;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -21,7 +22,14 @@ public class Poll {
     private Long id;
 
     private Long pollTypeId;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "polls_candidates",
+            joinColumns = @JoinColumn(
+                    name = "poll_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "candidate_id", referencedColumnName = "id"))
+    @ToString.Exclude
     private Set<Candidate> candidateList;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -32,7 +40,7 @@ public class Poll {
         createdAt = new Date();
     }
 
-    public void setcandidateList(List<Candidate> candidates) {
+    public void setCandidateList(List<Candidate> candidates) {
         this.candidateList = new HashSet<>(candidates);
     }
 
