@@ -14,7 +14,7 @@ import java.util.List;
  * @author showunmioludotun
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/candidates")
 public class CandidateController {
     private final CandidateService candidateService;
 
@@ -23,7 +23,7 @@ public class CandidateController {
         this.candidateService = candidateService;
     }
 
-    @PostMapping("/candidates")
+    @PostMapping("/create")
     public ResponseEntity<Candidate> addCandidate(@RequestBody CreateUpdateCandidateRequestDto request) {
         try {
             Candidate savedCandidate = candidateService.createCandidate(request);

@@ -10,15 +10,15 @@ import lombok.Data;
 public class CreateUpdateCandidateRequestDto {
 
 
-    private Integer partyId;
+    private Long partyId;
 
-    private Integer pollTypeId;
+    private Long pollTypeId;
 
     private String name;
 
     private String sex;
 
-    private Integer age;
+    private int age;
 
 
 }

@@ -46,4 +46,9 @@ public class CandidateServiceImpl implements CandidateService{
     public void deleteCandidateById(Long id) {
 
     }
+
+    @Override
+    public Candidate findByName(String name) {
+        return candidateRepository.findByName(name);
+    }
 }

@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
     boolean existsById(Long id);
+
+    Candidate findByName(String name);
 }

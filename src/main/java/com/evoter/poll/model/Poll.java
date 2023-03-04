@@ -1,11 +1,14 @@
 package com.evoter.poll.model;
 
-import com.evoter.vote.model.Vote;
+import com.evoter.candidate.model.Candidate;
+import com.evoter.permission.model.Permission;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author showunmioludotun
@@ -20,6 +23,11 @@ public class Poll {
 
     private String pollName;
 
+    private Long pollTypeId;
+
+    @OneToMany
+    private Set<Candidate> candidateList;
+
     private Date pollDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -27,6 +35,10 @@ public class Poll {
     @PrePersist
     private void onCreate() {
         createdAt = new Date();
+    }
+
+    public void setcandidateList(List<Candidate> candidates) {
+        this.candidateList = new HashSet<>(candidates);
     }
 
 

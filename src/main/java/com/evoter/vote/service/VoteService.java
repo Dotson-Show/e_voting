@@ -1,6 +1,6 @@
 package com.evoter.vote.service;
 
-import com.evoter.poll.dto.CasteVoteRequestDTO;
+import com.evoter.vote.dto.CasteVoteRequestDTO;
 import com.evoter.vote.dto.VoteDto;
 import com.evoter.vote.model.Vote;
 

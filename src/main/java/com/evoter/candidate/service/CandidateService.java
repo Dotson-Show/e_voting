@@ -18,4 +18,6 @@ public interface CandidateService {
      List<Candidate> getAllCandidates();
     Candidate getCandidateById(Long id);
     void deleteCandidateById(Long id) ;
+
+    Candidate findByName(String name);
 }

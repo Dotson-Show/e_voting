@@ -1,7 +1,11 @@
 package com.evoter.pollType.controller;
 
-import com.evoter.pollType.model.PollType;
+import com.evoter.general.dto.Response;
+import com.evoter.general.enums.ResponseCodeAndMessage;
+import com.evoter.general.service.GeneralService;
 import com.evoter.pollType.dto.AddPollTypeRequest;
+import com.evoter.pollType.dto.PollTypeDTO;
+import com.evoter.pollType.model.PollType;
 import com.evoter.pollType.service.PollTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,26 +18,24 @@ import java.util.List;
  * @author showunmioludotun
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/pollType")
 public class PollTypeController {
     private final PollTypeService pollTypeService;
 
+    private final GeneralService generalService;
+
     @Autowired
-    public PollTypeController(PollTypeService pollTypeService) {
+    public PollTypeController(PollTypeService pollTypeService, GeneralService generalService) {
         this.pollTypeService = pollTypeService;
+        this.generalService = generalService;
     }
 
-    @PostMapping("/poll-types")
-    public ResponseEntity<PollType> addPollType(@RequestBody AddPollTypeRequest request) {
-        try {
-            PollType savedPollType = pollTypeService.addPollType(request);
-            if (savedPollType == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(savedPollType, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @PostMapping("/create")
+    public Response createPollType(@RequestBody AddPollTypeRequest requestDTO) {
+
+        PollTypeDTO data = pollTypeService.createPollType(requestDTO);
+
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
     @GetMapping("/poll-types")
