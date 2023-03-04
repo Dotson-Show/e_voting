@@ -16,11 +16,9 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String voterEmail;
+    private Long candidateId;
 
-    private String candidateName;
-
-    private Integer pollId;
+    private Long pollId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(

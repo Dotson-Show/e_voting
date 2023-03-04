@@ -1,9 +1,8 @@
 package com.evoter.vote.service;
 
-import com.evoter.vote.dto.AddVoteRequest;
+import com.evoter.poll.dto.CasteVoteRequestDTO;
+import com.evoter.vote.dto.VoteDto;
 import com.evoter.vote.model.Vote;
-import com.evoter.vote.repository.VoteRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,27 +10,11 @@ import java.util.List;
  * @author showunmioludotun
  */
 
-@Service
-public class VoteService {
-    private final VoteRepository voteRepository;
+public interface VoteService {
 
-    public VoteService(VoteRepository voteRepository) {
-        this.voteRepository = voteRepository;
-    }
+    VoteDto casteVote(CasteVoteRequestDTO request);
 
-    public Vote addVote(AddVoteRequest request) {
-        Vote vote = new Vote();
-//        vote.setUserId(request.userId());
-//        vote.setCandidateId(request.candidateId());
-//        vote.setPollId(request.pollId());
-        return voteRepository.save(vote);
-    }
+    List<Vote> getAllVotes();
 
-    public List<Vote> getAllVotes() {
-        return voteRepository.findAll();
-    }
-
-    public Vote getVoteById(Long id) {
-        return voteRepository.findById(id).orElse(null);
-    }
+    Vote getVoteById(Long id);
 }

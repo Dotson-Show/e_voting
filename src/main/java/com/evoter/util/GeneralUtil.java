@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class GeneralUtil {
 
-    public static void validateNameAndPhoneNumber(String firstName, String lastName, String phoneNumber) {
+    public static void validateNameAndPhoneNumber(String firstName, String lastName, String phoneNumber, String email) {
         // check that first name is not null or empty
         if (GeneralUtil.stringIsNullOrEmpty(firstName)) {
             throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "First name cannot be null or empty!");
@@ -28,6 +28,11 @@ public class GeneralUtil {
         // check that phone number is not null or empty
         if (GeneralUtil.stringIsNullOrEmpty(phoneNumber)) {
             throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "Phone number cannot be null or empty!");
+        }
+
+        // check that phone number is not null or empty
+        if (GeneralUtil.stringIsNullOrEmpty(email)) {
+            throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "Email cannot be null or empty!");
         }
     }
 

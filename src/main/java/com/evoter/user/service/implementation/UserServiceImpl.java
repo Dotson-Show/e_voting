@@ -106,8 +106,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO registration(RegistrationRequestDTO createUserDto) {
         log.info("Registration Request with payload = {}", createUserDto);
 
-        //validate first name, last name and phone number
-        GeneralUtil.validateNameAndPhoneNumber(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getPhoneNumber());
+        //validate first name, last name and phone number and email
+        GeneralUtil.validateNameAndPhoneNumber(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getPhoneNumber(), createUserDto.getEmail());
 
         // email to lower case
         String email = createUserDto.getEmail().toLowerCase();
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         log.info("creating a user with payload = {}", createUserDto);
 
         //validate first name, last name and phone number
-        GeneralUtil.validateNameAndPhoneNumber(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getPhoneNumber());
+        GeneralUtil.validateNameAndPhoneNumber(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getPhoneNumber(), createUserDto.getEmail());
 
         // email to lower case
         String email = createUserDto.getEmail().toLowerCase();
@@ -261,8 +261,7 @@ public class UserServiceImpl implements UserService {
         log.info("Getting settings for user => {}", email);
 
         if (GeneralUtil.stringIsNullOrEmpty(email)) {
-            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode,
-                    "Merchant not found");
+            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "User not found");
         }
 
         UserSettingsI userSettings = userRepository.getUserSettings(email);
@@ -369,7 +368,7 @@ public class UserServiceImpl implements UserService {
 
         if (GeneralUtil.stringIsNullOrEmpty(email)) {
             log.info("Admin User email {} is invalid", email);
-            throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "Admin User Email " + email + " is invalid!");
+            throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "User Email " + email + " is invalid!");
         }
 
         if (userRepository.existsByEmail(email)) {

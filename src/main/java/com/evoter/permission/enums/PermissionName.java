@@ -7,6 +7,7 @@ public enum PermissionName {
     CREATE_CANDIDATE(PermissionType.SUPER), VIEW_CANDIDATE(PermissionType.SUPER),
     CREATE_PARTY(PermissionType.SUPER), VIEW_PARTY(PermissionType.SUPER),
     CREATE_POLL_TYPE(PermissionType.SUPER), VIEW_POLL_TYPE(PermissionType.SUPER),
+    CASTE_VOTE(PermissionType.USER), VIEW_RESULTS(PermissionType.USER),
     CREATE_POLL(PermissionType.SUPER), VIEW_POLL(PermissionType.SUPER);
 
     public PermissionType permissionType;
