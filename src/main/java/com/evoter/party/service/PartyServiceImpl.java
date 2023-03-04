@@ -21,7 +21,14 @@ public class PartyServiceImpl implements PartyService{
 
     @Override
     public Party createParty(CreateUpdatePartyDTO request) {
-        return null;
+
+
+        Party party = new Party();
+        party.setName(request.getName());
+
+        Party p = partyRepository.save(party);
+
+        return p;
     }
 
     public List<Party> getAllParties() {

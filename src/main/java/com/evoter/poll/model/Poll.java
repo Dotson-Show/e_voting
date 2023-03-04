@@ -1,7 +1,6 @@
 package com.evoter.poll.model;
 
 import com.evoter.candidate.model.Candidate;
-import com.evoter.permission.model.Permission;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,11 +20,10 @@ public class Poll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String pollName;
+    private Long pollTypeId;
     @OneToMany
     private Set<Candidate> candidateList;
 
-    private Date pollDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 

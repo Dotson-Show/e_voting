@@ -17,14 +17,15 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer partyId;
+    private Long partyId;
 
-    private Integer pollTypeId;
+    private Long pollTypeId;
 
     private String name;
+
     private String sex;
 
-    private Integer age;
+    private int age;
     private Date createdAt;
 
     @PrePersist

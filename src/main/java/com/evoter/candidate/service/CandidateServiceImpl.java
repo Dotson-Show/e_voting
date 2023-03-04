@@ -28,8 +28,14 @@ public class CandidateServiceImpl implements CandidateService{
         // check if candidate already exist
 
         //save
+        Candidate candidate = new Candidate();
+        candidate.setName(requestDto.getName());
+        candidate.setAge(requestDto.getAge());
+        candidate.setSex(requestDto.getSex());
+        candidate.setPartyId(requestDto.getPartyId());
+        candidate.setPollTypeId(requestDto.getPollTypeId());
 
-        return null;
+        return candidateRepository.save(candidate);
     }
 
     @Override

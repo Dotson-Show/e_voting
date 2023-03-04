@@ -4,7 +4,6 @@ import com.evoter.general.dto.Response;
 import com.evoter.general.enums.ResponseCodeAndMessage;
 import com.evoter.general.service.GeneralService;
 import com.evoter.poll.dto.AddPollRequest;
-import com.evoter.poll.dto.PollDto;
 import com.evoter.poll.model.Poll;
 import com.evoter.poll.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +32,12 @@ public class PollController {
     @PostMapping("/create")
     public Response createPoll(@RequestBody AddPollRequest requestDTO) {
 
-        PollDto data = pollService.createPoll(requestDTO);
+        Poll data = pollService.createPoll(requestDTO);
 
         return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
-    @GetMapping("/polls")
+    @GetMapping("")
     public ResponseEntity<List<Poll>> getAllPolls() {
         try {
             List<Poll> polls = pollService.getAllPolls();
@@ -51,7 +50,7 @@ public class PollController {
         }
     }
 
-    @GetMapping("/polls/{pollId}")
+    @GetMapping("/{pollId}")
     public ResponseEntity<Poll> getPollById(@PathVariable("pollId") Long id) {
         try {
             Poll poll = pollService.getPollById(id);
@@ -64,7 +63,7 @@ public class PollController {
         }
     }
 
-    @DeleteMapping("/polls/{pollId}")
+    @DeleteMapping("/{pollId}")
     public ResponseEntity<Void> deletePollById(@PathVariable("pollId") Long id) {
         try {
             pollService.deletePollById(id);

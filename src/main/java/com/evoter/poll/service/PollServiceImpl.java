@@ -9,6 +9,7 @@ import com.evoter.poll.dto.AddPollRequest;
 import com.evoter.poll.dto.PollDto;
 import com.evoter.poll.model.Poll;
 import com.evoter.poll.repository.PollRepository;
+import com.evoter.pollType.repository.PollTypeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +22,26 @@ public class PollServiceImpl implements PollService {
 
     private final PollRepository pollRepository;
 
+    private final PollTypeRepository pollTypeRepository;
+
     private final GeneralService generalService;
 
     private final CandidateService candidateService;
 
-    public PollServiceImpl(PollRepository pollRepository, GeneralService generalService, CandidateService candidateService) {
+    public PollServiceImpl(PollRepository pollRepository, PollTypeRepository pollTypeRepository, GeneralService generalService, CandidateService candidateService) {
         this.pollRepository = pollRepository;
+        this.pollTypeRepository = pollTypeRepository;
         this.generalService = generalService;
         this.candidateService = candidateService;
     }
 
     @Override
-    public PollDto createPoll(AddPollRequest requestDTO) {
+    public Poll createPoll(AddPollRequest requestDTO) {
         log.info("Request to create poll with payload={}", requestDTO);
 
         //validate poll
-        if (pollRepository.existsByPollName(requestDTO.getPollName())) {
-            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Poll Name already found");
+        if (!pollTypeRepository.existsById(requestDTO.getPollTypeId())) {
+            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Poll Type Not found");
         }
 
         //permission
@@ -45,12 +49,10 @@ public class PollServiceImpl implements PollService {
 
         // save role
         Poll poll = new Poll();
-        poll.setPollName(requestDTO.getPollName());
+        poll.setPollTypeId(requestDTO.getPollTypeId());
         poll.setcandidateList(candidateList);
 
-        pollRepository.save(poll);
-
-        return getPollDTO(poll);
+        return pollRepository.save(poll);
     }
 
     @Override

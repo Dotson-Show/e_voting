@@ -1,10 +1,7 @@
 package com.evoter.poll.service;
 
 import com.evoter.poll.dto.AddPollRequest;
-import com.evoter.poll.dto.PollDto;
 import com.evoter.poll.model.Poll;
-import com.evoter.poll.repository.PollRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,11 +11,11 @@ import java.util.List;
 
 public interface PollService {
 
-    PollDto createPoll(AddPollRequest requestDTO);
+    Poll createPoll(AddPollRequest requestDTO);
 
     public List<Poll> getAllPolls();
 
-     Poll getPollById(Long id);
+    Poll getPollById(Long id);
 
-     void deletePollById(Long id);
+    void deletePollById(Long id);
 }
