@@ -1,8 +1,8 @@
 package com.evoter.party.service;
 
+import com.evoter.party.dto.CreatePartyDTO;
+import com.evoter.party.dto.UpdatePartyRequest;
 import com.evoter.party.model.Party;
-import com.evoter.party.repository.PartyRepository;
-import com.evoter.party.dto.AddPartyRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,30 +11,12 @@ import java.util.List;
  * @author showunmioludotun
  */
 @Service
-public class PartyService {
+public interface PartyService {
 
-    private final PartyRepository partyRepository;
+     Party createParty(CreatePartyDTO request);
 
-    public PartyService(PartyRepository partyRepository) {
-        this.partyRepository = partyRepository;
-    }
-
-    public Party addParty(AddPartyRequest request) {
-        Party party = new Party();
-        party.setName(request.name());
-        party.setLogo(request.logo());
-        return partyRepository.save(party);
-    }
-
-    public List<Party> getAllParties() {
-        return partyRepository.findAll();
-    }
-
-    public Party getPartyById(Long id) {
-        return partyRepository.findById(id).orElse(null);
-    }
-
-    public void deletePartyById(Long id) {
-        partyRepository.deleteById(id);
-    }
+     Party updateParty(Long PartyId, UpdatePartyRequest request);
+     List<Party> getAllParties();
+     Party getPartyById(Long id);
+     void deletePartyById(Long id);
 }

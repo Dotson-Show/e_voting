@@ -1,6 +1,7 @@
 package com.evoter.vote.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @author showunmioludotun
  */
 @Entity
-@Table(name = "votes")
+@Data
 public class Vote {
 
     @Id
