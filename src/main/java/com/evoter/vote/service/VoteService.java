@@ -1,8 +1,8 @@
 package com.evoter.vote.service;
 
+import com.evoter.vote.dto.AddVoteRequest;
 import com.evoter.vote.model.Vote;
 import com.evoter.vote.repository.VoteRepository;
-import com.evoter.vote.dto.AddVoteRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +21,9 @@ public class VoteService {
 
     public Vote addVote(AddVoteRequest request) {
         Vote vote = new Vote();
-        vote.setUserId(request.userId());
-        vote.setCandidateId(request.candidateId());
-        vote.setPollId(request.pollId());
+//        vote.setUserId(request.userId());
+//        vote.setCandidateId(request.candidateId());
+//        vote.setPollId(request.pollId());
         return voteRepository.save(vote);
     }
 

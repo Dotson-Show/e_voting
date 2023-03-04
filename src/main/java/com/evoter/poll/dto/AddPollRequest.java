@@ -1,9 +1,6 @@
 package com.evoter.poll.dto;
 
-import java.util.Date;
+public class AddPollRequest {
 
-public record AddPollRequest(
-        Integer pollTypeId,
-        Date pollDate
-) {
+    private String pollName;
 }

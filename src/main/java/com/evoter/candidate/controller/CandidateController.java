@@ -1,7 +1,7 @@
 package com.evoter.candidate.controller;
 
+import com.evoter.candidate.dto.CreateUpdateCandidateRequestDto;
 import com.evoter.candidate.model.Candidate;
-import com.evoter.candidate.dto.AddCandidateRequest;
 import com.evoter.candidate.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +24,9 @@ public class CandidateController {
     }
 
     @PostMapping("/candidates")
-    public ResponseEntity<Candidate> addCandidate(@RequestBody AddCandidateRequest request) {
+    public ResponseEntity<Candidate> addCandidate(@RequestBody CreateUpdateCandidateRequestDto request) {
         try {
-            Candidate savedCandidate = candidateService.addCandidate(request);
+            Candidate savedCandidate = candidateService.createCandidate(request);
             if (savedCandidate == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }

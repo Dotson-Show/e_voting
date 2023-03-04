@@ -1,8 +1,8 @@
 package com.evoter.poll.service;
 
+import com.evoter.poll.dto.AddPollRequest;
 import com.evoter.poll.model.Poll;
 import com.evoter.poll.repository.PollRepository;
-import com.evoter.poll.dto.AddPollRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +20,6 @@ public class PollService {
 
     public Poll addPoll(AddPollRequest request) {
         Poll poll = new Poll();
-        poll.setPollTypeId(request.pollTypeId());
-        poll.setPollDate(request.pollDate());
         return pollRepository.save(poll);
     }
 
