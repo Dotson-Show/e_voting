@@ -8,5 +8,7 @@ public class VoteDto {
 
     private Long candidateId;
 
+    private String partyName;
+
     private Long pollId;
 }

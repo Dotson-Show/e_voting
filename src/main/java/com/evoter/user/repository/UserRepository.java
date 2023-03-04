@@ -23,6 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByPrivateKey(String privateKey);
     boolean existsByPublicKey(String privateKey);
 
+    boolean existsByGovtId(String govtId);
+
     @Query(value = "select au.id, au.email, au.phone_number, au.first_name, au.last_name from admin_user au\n" +
             "    inner join roles_permissions arp on au.role_id = arp.role_id\n" +
             "    inner join permission p on p.id = arp.permission_id\n" +

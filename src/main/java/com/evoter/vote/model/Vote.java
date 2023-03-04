@@ -18,7 +18,13 @@ public class Vote {
 
     private Long candidateId;
 
+    private String partyName;
+
     private Long pollId;
+
+//    private String voterEmail;
+
+    private String govtId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(
