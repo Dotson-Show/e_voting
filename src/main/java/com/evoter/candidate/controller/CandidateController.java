@@ -1,8 +1,11 @@
 package com.evoter.candidate.controller;
 
+import com.evoter.candidate.dto.CreateUpdateCandidateRequestDto;
 import com.evoter.candidate.model.Candidate;
-import com.evoter.candidate.dto.AddCandidateRequest;
 import com.evoter.candidate.service.CandidateService;
+import com.evoter.general.dto.Response;
+import com.evoter.general.enums.ResponseCodeAndMessage;
+import com.evoter.general.service.GeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,26 +17,24 @@ import java.util.List;
  * @author showunmioludotun
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/candidates")
 public class CandidateController {
     private final CandidateService candidateService;
 
+    private final GeneralService generalService;
+
     @Autowired
-    public CandidateController(CandidateService candidateService) {
+    public CandidateController(CandidateService candidateService, GeneralService generalService) {
         this.candidateService = candidateService;
+        this.generalService = generalService;
     }
 
-    @PostMapping("/candidates")
-    public ResponseEntity<Candidate> addCandidate(@RequestBody AddCandidateRequest request) {
-        try {
-            Candidate savedCandidate = candidateService.addCandidate(request);
-            if (savedCandidate == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(savedCandidate, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @PostMapping("/create")
+    public Response addCandidate(@RequestBody CreateUpdateCandidateRequestDto request) {
+
+        Candidate data = candidateService.createCandidate(request);
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
+
     }
 
     @GetMapping("/candidates")

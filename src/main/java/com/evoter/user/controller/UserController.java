@@ -1,78 +1,62 @@
 package com.evoter.user.controller;
 
-import com.evoter.user.model.User;
-import com.evoter.user.dto.AddUserRequest;
+import com.evoter.general.dto.Response;
+import com.evoter.general.enums.ResponseCodeAndMessage;
+import com.evoter.general.service.GeneralService;
+import com.evoter.user.dto.*;
 import com.evoter.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
 
-/**
- * @author showunmioludotun
- */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
+    private final GeneralService generalService;
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(GeneralService generalService, UserService adminUserService) {
+        this.generalService = generalService;
+        this.userService = adminUserService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> addUser(@RequestBody AddUserRequest request) {
-         try {
-             User savedUser = userService.addUser(request);
-             if (savedUser == null) {
-                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-             }
-             return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-         } catch (Exception e) {
-             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-         }
+    @PostMapping("/registration")
+    public Response registration(@RequestBody RegistrationRequestDTO requestDTO) {
+
+        UserDTO data = userService.registration(requestDTO);
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            List<User> users = userService.getAllUsers();
-            if (users.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    //    @PreAuthorize("hasAuthority('CREATE_USER')")
+    @PostMapping("/createAdminUser")
+    public Response createUser(@RequestBody CreateUpdateUserDTO requestDTO) {
+
+        UserDTO data = userService.addUser(requestDTO);
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") Long id) {
-        try {
-            User user = userService.getUserById(id);
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    //    @PreAuthorize("hasAuthority('CREATE_USER')")
+    @PostMapping("/update/{userId}")
+    public Response updateUser(@RequestBody CreateUpdateUserDTO requestDTO, @PathVariable Long userId) {
+
+        UserDTO data = userService.updateUser(requestDTO, userId);
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
-//    @PutMapping("/users/{userId}")
-//    public ResponseEntity<User> updateUser(@PathVariable("userId") Long id, @RequestBody UpdateUserRequest request) {
-//        try {
-//            User user = userService.updateUser(id, request);
-//            if (user == null) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(user, HttpStatus.OK);
-//        }catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    //    @PreAuthorize("hasAuthority('VIEW_USER')")
+    @PostMapping()
+    public Response getAll(@RequestBody UserRequestDTO requestDTO) {
+
+        UserListDTO data = userService.getAllUsers(requestDTO);
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
+    }
+
+
+    @PostMapping("/getLoggedInUserInfo")
+    public Response getLoggedInUser(Principal principal) {
+        UserDTO data = userService.getOneAdminUser(principal.getName());
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
+    }
+
 }

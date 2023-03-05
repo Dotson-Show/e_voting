@@ -1,62 +1,34 @@
 package com.evoter.user.service;
 
+import com.evoter.user.dto.*;
 import com.evoter.user.model.User;
-import com.evoter.user.repository.UserRepository;
-import com.evoter.user.dto.AddUserRequest;
-import com.evoter.user.dto.UpdateUserRequest;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
 
-import static java.time.LocalTime.now;
+public interface UserService {
 
-/**
- * @author showunmioludotun
- */
-@Service
-public class UserService {
-    private final UserRepository userRepository;
+    UserDTO getOneAdminUser(String email);
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    User getUserForLogin(String email);
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    void logoutUser(String email);
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
+    UserDTO registration(RegistrationRequestDTO createUserDto);
 
-    public User addUser(AddUserRequest request) {
-        User user = new User();
-        user.setName(request.name());
-        user.setAge(request.age());
-        user.setEmail(request.email());
-        user.setPassword(request.password());
-        user.setSex(request.sex());
-        user.setNin(request.nin());
-        user.setAdmin(false);
-        user.setSuperAdmin(false);
-        return userRepository.save(user);
-    }
+    UserDTO addUser(CreateUpdateUserDTO createAdminUserDto);
 
-    public User updateUser(Long id, UpdateUserRequest request) {
-        User user = userRepository.findById(id).orElse(null);
-        System.out.println(user);
-        System.exit(0);
-        if (user == null) {
-            return null;
-        }
-        user.setName(request.name());
-        user.setAge(request.age());
-        user.setEmail(request.email());
-        user.setPassword(request.password());
-        user.setSex(request.sex());
-        user.setNin(request.nin());
-        user.setAdmin(false);
-        user.setSuperAdmin(false);
-        return userRepository.save(user);
-    }
+    UserDTO updateUser(CreateUpdateUserDTO createAdminUserDto, Long userId);
+
+    void validateThatAdminUserDoesNotExist(String email);
+
+    UserListDTO getAllUsers(UserRequestDTO requestDTO);
+
+//    boolean validateAdminUserExistAsAdminAndEnabled(String email);
+
+    UserDTO getUserDTO(User adminUser) throws InvocationTargetException, IllegalAccessException;
+
+    UserListDTO getAllUsersByPermissionName(String permissionName);
+
+    UserSettingsDTO getUserSettings(String email);
 }
+

@@ -1,9 +1,14 @@
 package com.evoter.poll.dto;
 
-import java.util.Date;
+import lombok.Data;
 
-public record AddPollRequest(
-        Integer pollTypeId,
-        Date pollDate
-) {
+import java.util.List;
+
+@Data
+public class AddPollRequest {
+
+    private Long pollTypeId;
+
+    private List<String> candidateNames;
+
 }

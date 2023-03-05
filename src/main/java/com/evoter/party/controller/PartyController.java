@@ -1,6 +1,8 @@
 package com.evoter.party.controller;
 
-import com.evoter.party.dto.CreatePartyDTO;
+import com.evoter.general.dto.Response;
+import com.evoter.general.enums.ResponseCodeAndMessage;
+import com.evoter.general.service.GeneralService;
 import com.evoter.party.dto.UpdatePartyRequest;
 import com.evoter.party.model.Party;
 import com.evoter.party.service.PartyService;
@@ -18,27 +20,26 @@ import java.util.List;
 public class PartyController {
     private final PartyService partyService;
 
-    public PartyController(PartyService partyService) {
+    public final GeneralService generalService;
+
+    public PartyController(PartyService partyService, GeneralService generalService) {
         this.partyService = partyService;
+        this.generalService = generalService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Party> addParty(@RequestBody CreatePartyDTO request) {
-        try {
-            Party savedParty = partyService.createParty(request);
-            if (savedParty == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(savedParty, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public Response createParty(@RequestBody UpdatePartyRequest request) {
 
+        Party data = partyService.createParty(request);
+
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
+
+
     @PutMapping("{partyId}")
-    public ResponseEntity<?>updateParty(@PathVariable Long partyId, @RequestBody UpdatePartyRequest updatePartyRequest){
-       Party updatedParty = partyService.updateParty(partyId,updatePartyRequest);
-       return ResponseEntity.status(HttpStatus.OK).body(updatedParty);
+    public ResponseEntity<?> updateParty(@PathVariable Long partyId, @RequestBody UpdatePartyRequest updatePartyRequest) {
+        Party updatedParty = partyService.updateParty(partyId, updatePartyRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedParty);
     }
 
     @GetMapping("/parties")

@@ -1,7 +1,6 @@
 package com.evoter.party.service;
 
 import com.evoter.Exception.PartyException;
-import com.evoter.party.dto.CreatePartyDTO;
 import com.evoter.party.dto.UpdatePartyRequest;
 import com.evoter.party.model.Party;
 import com.evoter.party.repository.PartyRepository;
@@ -13,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class PartyServiceImpl implements PartyService{
+public class PartyServiceImpl implements PartyService {
 
     private final PartyRepository partyRepository;
 
@@ -23,24 +22,29 @@ public class PartyServiceImpl implements PartyService{
 
 
     @Override
-    public Party createParty(CreatePartyDTO request) {
+    public Party createParty(UpdatePartyRequest request) {
+
+
         Party party = new Party();
         party.setName(request.getName());
-        partyRepository.save(party);
-        return party;
+
+        Party p = partyRepository.save(party);
+
+        return p;
     }
 
     @Override
     public Party updateParty(Long partyId, UpdatePartyRequest request) {
 
-      Optional<Party> partyFound = partyRepository.findById(partyId);
-      if(partyFound.isEmpty()) throw new PartyException(String.format("Party with id %d does not exists",partyId));
+        Optional<Party> partyFound = partyRepository.findById(partyId);
+        if (partyFound.isEmpty()) throw new PartyException(String.format("Party with id %d does not exists", partyId));
 
-      Party party = partyFound.get();
+        Party party = partyFound.get();
 
-      party.setName(request.getName());
-      partyRepository.save(party);
+        party.setName(request.getName());
+        partyRepository.save(party);
         return party;
+
     }
 
     public List<Party> getAllParties() {

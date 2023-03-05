@@ -1,6 +1,9 @@
 package com.evoter.pollType.dto;
 
-public record AddPollTypeRequest(
-        String name
-) {
+import lombok.Data;
+
+@Data
+public class AddPollTypeRequest {
+
+    private String name;
 }
