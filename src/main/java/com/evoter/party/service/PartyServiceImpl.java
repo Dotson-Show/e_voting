@@ -1,6 +1,7 @@
 package com.evoter.party.service;
 
 import com.evoter.Exception.PartyException;
+import com.evoter.exception.GeneralException;
 import com.evoter.party.dto.CreatePartyDTO;
 import com.evoter.party.dto.UpdatePartyRequest;
 import com.evoter.party.model.Party;
@@ -25,8 +26,11 @@ public class PartyServiceImpl implements PartyService{
     @Override
     public Party createParty(CreatePartyDTO request) {
         Party party = new Party();
-        party.setName(request.getName());
-        partyRepository.save(party);
+        if(request != null){
+            party.setName(request.getName());
+            partyRepository.save(party);
+        }
+
         return party;
     }
 
