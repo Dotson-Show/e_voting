@@ -1,7 +1,11 @@
 package com.evoter.vote.controller;
 
+import com.evoter.general.dto.Response;
+import com.evoter.general.enums.ResponseCodeAndMessage;
+import com.evoter.general.service.GeneralService;
+import com.evoter.vote.dto.CasteVoteRequestDTO;
+import com.evoter.vote.dto.VoteDto;
 import com.evoter.vote.model.Vote;
-import com.evoter.vote.dto.AddVoteRequest;
 import com.evoter.vote.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,22 +22,32 @@ import java.util.List;
 public class VoteController {
     private final VoteService voteService;
 
+    private final GeneralService generalService;
+
     @Autowired
-    public VoteController(VoteService voteService) {
+    public VoteController(VoteService voteService, GeneralService generalService) {
         this.voteService = voteService;
+        this.generalService = generalService;
     }
 
-    @PostMapping("/votes")
-    public ResponseEntity<Vote> addVote(@RequestBody AddVoteRequest request) {
-        try {
-            Vote savedVote = voteService.addVote(request);
-            if (savedVote == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(savedVote, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//    @PostMapping("/votes")
+//    public ResponseEntity<VoteDto> casteVote(@RequestBody CasteVoteRequestDTO request) {
+//        try {
+//            VoteDto savedVote = voteService.casteVote(request);
+//            if (savedVote == null) {
+//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//            }
+//            return new ResponseEntity<>(savedVote, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+    @PostMapping("/casteVote")
+    public Response casteVote(@RequestBody CasteVoteRequestDTO requestDTO) {
+
+        VoteDto data = voteService.casteVote(requestDTO);
+        return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
     @GetMapping("/votes")
