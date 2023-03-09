@@ -1,10 +1,9 @@
 package com.evoter.service;
 
-import com.evoter.party.dto.CreatePartyDTO;
-import com.evoter.party.dto.UpdatePartyRequest;
+import com.evoter.party.dto.request.PartyRequestDto;
+import com.evoter.party.dto.response.PartyResponseDto;
 import com.evoter.party.model.Party;
 import com.evoter.party.service.PartyService;
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PartyServiceImplTest {
 
     private final PartyService partyService;
-    private  CreatePartyDTO createPartyDTO;
+    private PartyRequestDto partyRequestDto;
 
-    private UpdatePartyRequest updatePartyRequest;
 
     @Autowired
     public PartyServiceImplTest(PartyService partyService) {
@@ -27,23 +25,22 @@ public class PartyServiceImplTest {
 
    @BeforeEach
     void setUp(){
-    createPartyDTO = new CreatePartyDTO();
-    createPartyDTO.setName("All progressive Party");
-    updatePartyRequest.setName("PDP");
+    partyRequestDto = new PartyRequestDto();
+    partyRequestDto.setName("All progressive Party");
+
 
 }
 
   @Test
     void createPartyTest(){
-      Party party = partyService.createParty(createPartyDTO);
+      PartyResponseDto party = partyService.createParty(partyRequestDto);
       assertThat(party).isNotNull();
   }
 
   @Test
     void updatePartyTest(){
-     Party party = partyService.updateParty(1L,updatePartyRequest);
-      System.out.println(party.toString());
+     PartyResponseDto party = partyService.updateParty(1L,partyRequestDto);
       assertThat(party).isNotNull();
-      assertThat(updatePartyRequest.getName()).isNotNull();
+      assertThat(partyRequestDto.getName()).isNotNull();
   }
 }

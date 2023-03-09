@@ -20,4 +20,6 @@ public interface CandidateService {
     void deleteCandidateById(Long id) ;
 
     Candidate findByName(String name);
+
+
 }

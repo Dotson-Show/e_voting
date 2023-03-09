@@ -1,6 +1,7 @@
 package com.evoter.party.service;
 
-import com.evoter.party.dto.UpdatePartyRequest;
+import com.evoter.party.dto.request.PartyRequestDto;
+import com.evoter.party.dto.response.PartyResponseDto;
 import com.evoter.party.model.Party;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,9 @@ import java.util.List;
 @Service
 public interface PartyService {
 
-    Party createParty(UpdatePartyRequest request);
+    PartyResponseDto createParty(PartyRequestDto request);
 
-    Party updateParty(Long PartyId, UpdatePartyRequest request);
+    PartyResponseDto updateParty(Long PartyId, PartyRequestDto request);
 
     List<Party> getAllParties();
 
