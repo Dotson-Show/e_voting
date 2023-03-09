@@ -25,6 +25,8 @@ public class Candidate {
 
     private String sex;
 
+    private String email;
+
     private int age;
     private Date createdAt;
 

@@ -18,6 +18,8 @@ public class CreateUpdateCandidateRequestDto {
 
     private String sex;
 
+    private String email;
+
     private int age;
 
 

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -31,38 +32,28 @@ public class CandidateServiceImpl implements CandidateService{
         log.info("Request to create a candidate with payload={}", requestDto);
 
         // validate that candidate details are not null
-        if(requestDto ==null) throw new GeneralException(ResponseCodeAndMessage.INVALID_JSON_REQUEST_DATA_90
+        if(Objects.isNull(requestDto)) throw new GeneralException(ResponseCodeAndMessage.INVALID_JSON_REQUEST_DATA_90
                 .responseCode,"request cannot be null");
 
+
         // check if candidate already exist
+
+        if(candidateRepository.isExistsByEmail(requestDto.getEmail())) throw new GeneralException(ResponseCodeAndMessage
+                .ALREADY_EXIST_86.responseCode,"Candidates already exists");
+
         Candidate candidate = new Candidate();
         candidate.setName(requestDto.getName());
         candidate.setAge(requestDto.getAge());
         candidate.setSex(requestDto.getSex());
         candidate.setPartyId(requestDto.getPartyId());
         candidate.setPollTypeId(requestDto.getPollTypeId());
-        if(candidateExists(candidate)) throw new GeneralException(ResponseCodeAndMessage.ALREADY_EXIST_86.
-                responseCode,"Candidates already exists");
+        candidate.setEmail(requestDto.getEmail());
 
         //save
         return candidateRepository.save(candidate);
     }
 
-    public boolean candidateExists(Candidate candidate) {
-        log.info("Checks if candidate exists in the database{}",candidate);
-        String query = "SELECT c FROM Candidate c WHERE c.name = :name AND c.sex = :sex AND c.partyId = " +
-                ":partyId AND c.age = :age AND c.pollTypeId = :pollTypeId";
-        TypedQuery<Candidate> typedQuery = entityManager.createQuery(query, Candidate.class)
-                .setParameter("name", candidate.getName())
-                .setParameter("sex", candidate.getSex())
-                .setParameter("partyId", candidate.getPartyId())
-                .setParameter("age",candidate.getAge())
-                .setParameter("pollTypeId",candidate.getPollTypeId());
 
-        List<Candidate> candidates = typedQuery.getResultList();
-
-        return !candidates.isEmpty();
-    }
     @Override
     public List<Candidate> getAllCandidates() {
         return candidateRepository.findAll();
@@ -70,13 +61,17 @@ public class CandidateServiceImpl implements CandidateService{
 
     @Override
     public Candidate getCandidateById(Long id) {
+        if(Objects.isNull(id))throw new GeneralException(ResponseCodeAndMessage.INVALID_JSON_REQUEST_DATA_90.
+                responseCode,"id cannot be null");
         return candidateRepository.findById(id).orElseThrow(()->new GeneralException(ResponseCodeAndMessage.
                 RECORD_NOT_FOUND_88.responseCode,"Candidate not found"));
     }
 
     @Override
     public void deleteCandidateById(Long id) {
-         candidateRepository.deleteById(id);
+        if(Objects.isNull(id))throw new GeneralException(ResponseCodeAndMessage.INVALID_JSON_REQUEST_DATA_90
+                .responseCode,"id cannot be null");
+        candidateRepository.deleteById(id);
     }
 
     @Override
